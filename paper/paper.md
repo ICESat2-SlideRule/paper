@@ -73,8 +73,8 @@ Several projects are exploring on-demand, cloud-based processing for satellite a
 # SlideRule project
 The SlideRule project includes multiple repositories:
 
-* [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](http://icesat2sliderule.org/h5coro/) driver
-* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and [interactive web interface](http://voila.icesat2sliderule.org/). 
+* [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](https://github.com/ICESat2-SlideRule/sliderule/tree/main/packages/h5) driver
+* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](http://voila.icesat2sliderule.org/). 
 * [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
 
 ## SlideRule server framework
