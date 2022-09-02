@@ -3,7 +3,8 @@
 https://github.com/openjournals/joss-reviews/issues/4700
 
 The SlideRule project includes multiple repositories:
-* The core server-side framework, which is mission agnostic and provides the base functionality of SlideRule: https://github.com/ICESat2-SlideRule/sliderule
-* The client library which contain language-specific code (e.g. Python, R): https://github.com/ICESat2-SlideRule/sliderule-python
-* The mission extension repositories which contain all the code for each mission supported by a SlideRule deployment.
-* The documentation and website materials: https://github.com/ICESat2-SlideRule/sliderule-docs
+
+* [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`
+](https://github.com/ICESat2-SlideRule/sliderule/tree/main/packages/h5) driver
+* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](http://voila.icesat2sliderule.org/).
+* [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website
