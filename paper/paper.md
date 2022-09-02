@@ -70,25 +70,31 @@ Several projects are exploring on-demand, cloud-based processing for satellite a
 
 [`captoolkit`](https://github.com/nasa-jpl/captoolkit) (Cryosphere Altimetry Processing Toolkit) from the NASA Jet Propulsion Library [@fernando_paolo_2020_3665785] allows users to estimate elevation change using altimetry data from multiple airborne and satellite missions. `captoolkit` has functions to apply geophysical corrections, calculate elevation change, and interpolate points into gridded fields. `captoolkit` uses parallelized functions that operate on local granule files, with optimization for High Performance Computing (HPC) clusters. 
 
-# SlideRule framework
+# SlideRule project
+The SlideRule project includes multiple repositories:
+1. [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](http://icesat2sliderule.org/h5coro/) driver
+1. [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and [interactive web interface](http://voila.icesat2sliderule.org/). 
+1. [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
+
+## SlideRule server framework
 `SlideRule` is a C++/Lua framework for on-demand data processing (\autoref{fig:architecture}). It is a science data processing service that runs in the cloud and responds to REST API calls to process and return science results.
 
 ![SlideRule architecture schematic.\label{fig:architecture}](./sliderule_arch_whitebg.jpg)
 
-## ICESat-2 SlideRule plugin
+### ICESat-2 SlideRule plugin
 The ICESat-2 SlideRule plugin provides two main types of services: 1) efficient access to archived ICESat-2 products, and 2) custom derived products (ATL06-SR) generated from the low-level ATL03 cloud assets.
 
-### Standard data product access
+#### Standard data product access
 `SlideRule` provides services for parallel access to original mission data products without the need to download or restructure in cloud-friendly formats (e.g., Zarr [@alistair_miles_2022_6697361]). This is accomplished using the [HDF5 Cloud-Optimized Read-Only (H5Coro) library](http://icesat2sliderule.org/h5coro/) for efficient reading of HDF5 files. The returned points preserve a subset of the many original ATL03 parameters, including those needed to interpret surface heights from the photon-height distribution. Additional functions provide similar access to the standard ATL06 cloud assets. 
 
-### Custom data products: ATL06-SR algorithm
+#### Custom data products: ATL06-SR algorithm
 The standard ATL06 (land-ice height) product [@smith2019land] (hereafter "ATL06-legacy") provides estimates of surface height and slope with along-track spacing of 20 m, derived from 40-m segments of ATL03 photons classified as likely surface returns. The algorithm iteratively improves the initial photon classification, and calculates a set of corrections based on the residuals between the segment heights and the selected photon heights to correct for sub-centimeter biases in the resulting height estimates.
 
 The ATL06-SlideRule ("ATL06-SR") algorithm implements much of the ATL06-legacy algorithm in a framework that allows for customization of the initial photon classification, the segment length and spacing, and the filtering strategy used to identify valid segments in the product. For the sake of simplicity and speed, ATL06-SR omits some of the corrections required for sub-centimeter accuracy over polar surfaces, including the first-photon bias and pulse-shape corrections [@smith2019land]. Omitting these corrections should result in biases that are no more than a few centimeters, which, over complex or rapidly changing non-polar surfaces, are unlikely to be the dominant source of errors.
 
 One important difference between the ATL06-legacy and ATL06-SR algorithms is the iterative photon-selection strategy. Both algorithms begin with photons selected based on the input photon classification. The selection is then refined to reject photons that have large residual values (i.e., larger than three times a robust estimate of the standard deviation of the previously selected residuals) and the fit is recalculated. This process continues until a specified number of iterations has occurred, or until subsequent iterations leave the photon selection unchanged. In ATL06-legacy, at each iteration the photons are selected from the complete set of input photons, regardless of how they were initially flagged or selected, while in ATL06-SR, each iteration selects photons exclusively from those selected in the previous iteration. This means that in ATL06-legacy, the number of photons can increase from one iteration to the next, while in ATL06-SR it can only remain constant or decrease. This choice lets ATL06-SR more faithfully reflect the height distribution of the initial selection, at the expense of sometimes missing photons close to the surface that might add more information to the fitting algorithm, possibly improving the accuracy of the fit. Under most circumstances, the two algorithms produce very similar results.
 
-### Photon classification 
+#### Photon classification 
 The ATL06-SR algorithm supports three sources of photon classification data (\autoref{fig:classification}): 1) ATL03 photon confidence values (from respective classification algorithms for land, ocean, sea-ice, land-ice, or inland water) [@neumann2019ice], 2) ATL08 photon classification [@neuenschwander2019atl08], and 3) YAPC (Yet Another Photon Classification) photon-density-based classification [@tyler_sutterley_2022_6717591].
 
 The ATL08 Land and Vegetation Height product [@neuenschwander2019atl08] includes improved photon-level classification for vegetation, including returns from the canopy, ground surface, and noise. The ICESat-2 plugin can efficiently retrieve the photon classifications from ATL08 cloud assets and apply to the desired subset of ATL03 photons.
