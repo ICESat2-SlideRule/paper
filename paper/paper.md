@@ -7,7 +7,7 @@ tags:
   - Glacier
   - Earth observation
 authors:
-  - name: David Shean ^[co-first author] 
+  - name: David Shean 
     orcid: 0000-0003-3840-3860
     affiliation: 1
   - name: J.P. Swinski ^[co-first author] # note this makes a footnote saying 'co-first author'
@@ -72,9 +72,10 @@ Several projects are exploring on-demand, cloud-based processing for satellite a
 
 # SlideRule project
 The SlideRule project includes multiple repositories:
-1. [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](http://icesat2sliderule.org/h5coro/) driver
-1. [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and [interactive web interface](http://voila.icesat2sliderule.org/). 
-1. [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
+
+* [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](http://icesat2sliderule.org/h5coro/) driver
+* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and [interactive web interface](http://voila.icesat2sliderule.org/). 
+* [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
 
 ## SlideRule server framework
 `SlideRule` is a C++/Lua framework for on-demand data processing (\autoref{fig:architecture}). It is a science data processing service that runs in the cloud and responds to REST API calls to process and return science results.
