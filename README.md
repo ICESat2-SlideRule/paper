@@ -1,5 +1,7 @@
 # Materials for Journal of Open Source Software (JOSS) Submission
+[![status](https://joss.theoj.org/papers/ddd37aab8ef5bda53725e9a262ec6cfd/status.svg)](https://joss.theoj.org/papers/ddd37aab8ef5bda53725e9a262ec6cfd)
 
+https://github.com/openjournals/joss-reviews/issues/4982  
 https://github.com/openjournals/joss-reviews/issues/4700
 
 The SlideRule project includes multiple repositories:
