@@ -74,7 +74,7 @@ Several projects are exploring on-demand, cloud-based processing for satellite a
 The SlideRule project includes multiple repositories:
 
 * [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](https://github.com/ICESat2-SlideRule/sliderule/tree/main/packages/h5) driver
-* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](http://voila.icesat2sliderule.org/). 
+* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](https://demo.slideruleearth.io). 
 * [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
 
 ## SlideRule server framework
@@ -86,7 +86,7 @@ The SlideRule project includes multiple repositories:
 The ICESat-2 SlideRule plugin provides two main types of services: 1) efficient access to archived ICESat-2 products, and 2) custom derived products (ATL06-SR) generated from the low-level ATL03 cloud assets.
 
 #### Standard data product access
-`SlideRule` provides services for parallel access to original mission data products without the need to download or restructure in cloud-friendly formats (e.g., Zarr [@alistair_miles_2022_6697361]). This is accomplished using the [HDF5 Cloud-Optimized Read-Only (H5Coro) library](http://icesat2sliderule.org/h5coro/) for efficient reading of HDF5 files. The returned points preserve a subset of the many original ATL03 parameters, including those needed to interpret surface heights from the photon-height distribution. Additional functions provide similar access to the standard ATL06 cloud assets. 
+`SlideRule` provides services for parallel access to original mission data products without the need to download or restructure in cloud-friendly formats (e.g., Zarr [@alistair_miles_2022_6697361]). This is accomplished using the [HDF5 Cloud-Optimized Read-Only (H5Coro) library](https://slideruleearth.io/rtd/user_guide/H5Coro.html) for efficient reading of HDF5 files. The returned points preserve a subset of the many original ATL03 parameters, including those needed to interpret surface heights from the photon-height distribution. Additional functions provide similar access to the standard ATL06 cloud assets. 
 
 #### Custom data products: ATL06-SR algorithm
 The standard ATL06 (land-ice height) product [@smith2019land] (hereafter "ATL06-legacy") provides estimates of surface height and slope with along-track spacing of 20 m, derived from 40-m segments of ATL03 photons classified as likely surface returns. The algorithm iteratively improves the initial photon classification, and calculates a set of corrections based on the residuals between the segment heights and the selected photon heights to correct for sub-centimeter biases in the resulting height estimates.
