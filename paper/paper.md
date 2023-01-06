@@ -21,6 +21,8 @@ authors:
     affiliation: "4, 5"
   - name: Carlos Ugarte
     affiliation: 2
+  - name: Eric Lidwa 
+    affiliation: 2
   - name: Thomas Neumann
     affiliation: 2
 affiliations:
@@ -35,14 +37,14 @@ affiliations:
  - name: University of Washington, eScience Institute
    index: 5
 
-date: 19 August 2022
+date: 5 January 2023
 bibliography: paper.bib
 ---
 
 # Summary
 `SlideRule` is an open source server-side framework for on-demand processing of science data in the cloud. The `SlideRule` project offers a new paradigm for NASA archival data management – rapid delivery of customizable on-demand data products, rather than hosting large volumes of standard derivative products, which will inevitably be insufficient for some science applications. 
 
-The scalable server-side components of `SlideRule` run in the AWS cloud with optimized functions to read HDF5 data hosted by NASA in S3 cloud object storage. While `SlideRule` can be accessed by any HTTP client (e.g., curl) through GET and POST requests, the `sliderule-python` client provides a user-friendly API for easy interaction with the `SlideRule` service. The client library returns standard Python data containers (i.e., Pandas DataFrame) and facilitates serialization with provenance metadata for reproducible science.
+The scalable server-side components of `SlideRule` run in the AWS cloud with optimized functions to read HDF5 data hosted by NASA in S3 cloud object storage. While `SlideRule` can be accessed by any HTTP client (e.g., curl) through GET and POST requests, the `sliderule-python` client provides a user-friendly API for synchronous interaction with the `SlideRule` service. The client library returns standard Python data containers (i.e., Pandas DataFrame) and facilitates serialization with provenance metadata for reproducible science.
 
 `SlideRule` uses a plugin framework to support different NASA missions and data products. The ICESat-2 `SlideRule` plugin offers customizable algorithms to process the archive of low-level data products from the NASA Ice Cloud and land Elevation Satellite-2 (ICESat-2) laser altimetry mission. The user defines a geographic area of interest and key processing parameters via an interactive web interface or the API, and SlideRule returns high-level surface elevation point cloud products in seconds to minutes, enabling rapid algorithm developent, visualization and scientific interpretation. 
 
@@ -58,10 +60,12 @@ The ATL03 data granules are stored as ~1-2 GB HDF5-format files containing ~20-1
 ## State of the field
 The current paradigm for ICESat-2 data access involves downloading large volumes of standard data products from a NASA Distributed Active Archive Center (DAAC), then writing custom routines to prepare those products for analysis. The National Snow and Ice Data Center (NSIDC) offers data discovery and limited subsetting services, allowing users to request and download products for a user-specified geographic area with a user-defined subset of returned variables [@atl03_nsidc]. Even with these subsetting services, the full workflow to request, stage, and download hundreds of products can take several minutes to hours, especially for larger areas, and these services do not currently support custom server-side data processing.
 
-### On-demand data processing
+### On-demand science data processing
 Several projects are exploring on-demand, cloud-based processing for satellite and/or point cloud data. For example, the Alaska Satellite Facility's Hybrid Pluggable Processing Pipeline (ASF HyP3) enables custom processing of satellite SAR images from multiple missions [@hogenson_kirk_2020_6917373]. The [OpenTopography project](https://opentopography.org/) offers "Web service-based data access, processing, and analysis capabilities that are scalable, extensible, and innovative" with emphasis on "high-resolution (meter to sub-meter scale), Earth science-oriented, topography data acquired with LiDAR and other technologies." The current processing options and data products are focused on airborne LiDAR point clouds, with no plans to support the more complex ICESat-2 data products.
 
-### ICESat-2 packages
+### Currently available ICESat-2 processing packages 
+Several existing projects offer software and/or APIs to process, analyze and visualize ICESat-2 data products. We briefly summarize these efforts to provide context and justification for the ICESat-2 SlideRule project.
+
 [`icepyx`](https://icepyx.readthedocs.io) is a python library supporting programmatic access to ICESat-2 data through the NASA Common Metadata Repository (CMR) and NSIDC services [@icepyx]. `icepyx` allows for queries based on spatial and temporal parameters, as well as ICESat-2 orbital cycle and Reference Ground Track (RGT). Accessing NSIDC API services through `icepyx` allows users to subset ICESat-2 data and convert data to other file formats. At present, `icepyx` facilitates reading and visualizing data available from NSIDC, but it is not a data processing service.
 
 [`OpenAltimetry`](https://openaltimetry.org) offers discovery, access, and visualization of data from NASA’s ICESat and ICESat-2 missions. This service includes an API that can provide access to either photon-level ATL03 data or derived height variables (e.g., ATL06) for a single reference ground track, but does not offer processing from photons to higher-level products [@khalsa2020openaltimetry].
@@ -71,14 +75,14 @@ Several projects are exploring on-demand, cloud-based processing for satellite a
 [`captoolkit`](https://github.com/nasa-jpl/captoolkit) (Cryosphere Altimetry Processing Toolkit) from the NASA Jet Propulsion Library [@fernando_paolo_2020_3665785] allows users to estimate elevation change using altimetry data from multiple airborne and satellite missions. `captoolkit` has functions to apply geophysical corrections, calculate elevation change, and interpolate points into gridded fields. `captoolkit` uses parallelized functions that operate on local granule files, with optimization for High Performance Computing (HPC) clusters. 
 
 # SlideRule project
-The SlideRule project includes multiple repositories:
+As of version 1.5.8, the SlideRule project includes the following repositories:
 
 * [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](https://github.com/ICESat2-SlideRule/sliderule/tree/main/packages/h5) driver
-* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](http://voila.icesat2sliderule.org/). 
+* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](https://demo.slideruleearth.io/). 
 * [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
 
 ## SlideRule server framework
-`SlideRule` is a C++/Lua framework for on-demand data processing (\autoref{fig:architecture}). It is a science data processing service that runs in the cloud and responds to REST API calls to process and return science results.
+`SlideRule` is a C++/Lua framework for on-demand data processing (\autoref{fig:architecture}). It is a science data processing service that runs in the cloud and responds to REST API calls to process and return science results. The SlideRule service was designed for synchronous processing - the client connection remains open after a request is submitted, and results are streamed back to the engaged user in near-real-time. This model is preferable over asynchronous processing, where requests are queued and users are notified to retrieve results at a later time. 
 
 ![SlideRule architecture schematic.\label{fig:architecture}](./sliderule_arch_whitebg.jpg)
 
@@ -86,7 +90,7 @@ The SlideRule project includes multiple repositories:
 The ICESat-2 SlideRule plugin provides two main types of services: 1) efficient access to archived ICESat-2 products, and 2) custom derived products (ATL06-SR) generated from the low-level ATL03 cloud assets.
 
 #### Standard data product access
-`SlideRule` provides services for parallel access to original mission data products without the need to download or restructure in cloud-friendly formats (e.g., Zarr [@alistair_miles_2022_6697361]). This is accomplished using the [HDF5 Cloud-Optimized Read-Only (H5Coro) library](http://icesat2sliderule.org/h5coro/) for efficient reading of HDF5 files. The returned points preserve a subset of the many original ATL03 parameters, including those needed to interpret surface heights from the photon-height distribution. Additional functions provide similar access to the standard ATL06 cloud assets. 
+`SlideRule` provides services for parallel access to original mission data products without the need to download or restructure in cloud-friendly formats (e.g., Zarr [@alistair_miles_2022_6697361]). This is accomplished using the [HDF5 Cloud-Optimized Read-Only (H5Coro) library](https://slideruleearth.io/rtd/user_guide/H5Coro.html) for efficient reading of HDF5 files. The returned points preserve a subset of the many original ATL03 parameters, including those needed to interpret surface heights from the photon-height distribution. Additional functions provide similar access to the standard ATL06 cloud assets. 
 
 #### Custom data products: ATL06-SR algorithm
 The standard ATL06 (land-ice height) product [@smith2019land] (hereafter "ATL06-legacy") provides estimates of surface height and slope with along-track spacing of 20 m, derived from 40-m segments of ATL03 photons classified as likely surface returns. The algorithm iteratively improves the initial photon classification, and calculates a set of corrections based on the residuals between the segment heights and the selected photon heights to correct for sub-centimeter biases in the resulting height estimates.
