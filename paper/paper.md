@@ -78,7 +78,7 @@ Several existing projects offer software and/or APIs to process, analyze and vis
 As of version 1.5.8, the SlideRule project includes the following repositories:
 
 * [`sliderule`](https://github.com/ICESat2-SlideRule/sliderule) server framework with core functionality, including [plugins](https://github.com/ICESat2-SlideRule/sliderule/tree/main/plugins) for different missions and the [`H5Coro`](https://github.com/ICESat2-SlideRule/sliderule/tree/main/packages/h5) driver
-* [`slierule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](https://demo.slideruleearth.io/). 
+* [`sliderule-python`](https://github.com/ICESat2-SlideRule/sliderule-python) client, with language-specific API, example Jupyter notebooks, and source for the [interactive web interface](https://demo.slideruleearth.io). 
 * [`sliderule-docs`](https://github.com/ICESat2-SlideRule/sliderule-docs) project documentation and website 
 
 ## SlideRule server framework
