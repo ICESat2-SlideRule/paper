@@ -113,6 +113,6 @@ The rapid processing offered by the `SlideRule` service allows for interactive t
 
 # Acknowledgements
 
-The `SlideRule` project is funded by the NASA ICESat-2 project and NASA award 80NSSC20K0995.
+The `SlideRule` project is funded by the NASA ICESat-2 project and NASA award 80NSSC20K0995. We thank reviewers Luis López (@betolink) and Joe Kennedy (@jhkennedy) for their detailed and insightful comments, which improved the quality of the SlideRule code, documentation and this paper.
 
 # References
