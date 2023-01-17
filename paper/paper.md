@@ -46,7 +46,7 @@ bibliography: paper.bib
 
 The scalable server-side components of `SlideRule` run in the AWS cloud with optimized functions to read HDF5 data hosted by NASA in S3 cloud object storage. While `SlideRule` can be accessed by any HTTP client (e.g., curl) through GET and POST requests, the `sliderule-python` client provides a user-friendly API for synchronous interaction with the `SlideRule` service. The client library returns standard Python data containers (i.e., Pandas DataFrame) and facilitates serialization with provenance metadata for reproducible science.
 
-`SlideRule` uses a plugin framework to support different NASA missions and data products. The ICESat-2 `SlideRule` plugin offers customizable algorithms to process the archive of low-level data products from the NASA Ice Cloud and land Elevation Satellite-2 (ICESat-2) laser altimetry mission. The user defines a geographic area of interest and key processing parameters via an interactive web interface or the API, and SlideRule returns high-level surface elevation point cloud products in seconds to minutes, enabling rapid algorithm developent, visualization and scientific interpretation. 
+`SlideRule` uses a plugin framework to support different NASA missions and data products. The ICESat-2 `SlideRule` plugin offers customizable algorithms to process the archive of low-level data products from the NASA Ice Cloud and land Elevation Satellite-2 (ICESat-2) laser altimetry mission. The user defines a geographic area of interest and key processing parameters via an interactive web interface or the API, and SlideRule returns high-level surface elevation point cloud products in seconds to minutes, enabling rapid algorithm development, visualization and scientific interpretation. 
 
 # Statement of need
 ICESat-2 launched in September 2018 as the follow-on mission for the original ICESat mission (2003-2010), which pioneered the application of space-based laser altimetry to precisely measure the height of the Earth's changing surface [@markus2017ice]. These missions are optimized to measure elevation change of the cryosphere, including ice sheets and sea ice, allowing scientists to quantify and understand changes in a warming climate.
@@ -113,6 +113,6 @@ The rapid processing offered by the `SlideRule` service allows for interactive t
 
 # Acknowledgements
 
-The `SlideRule` project is funded by the NASA ICESat-2 project and NASA award 80NSSC20K0995. We thank reviewers Luis López (@betolink) and Joe Kennedy (@jhkennedy) for their detailed and insightful comments, which improved the quality of the SlideRule code, documentation and this paper.
+The `SlideRule` project is funded by the NASA ICESat-2 project and NASA award 80NSSC20K0995. We thank reviewers Luis López (\@betolink) and Joe Kennedy (\@jhkennedy) for their detailed and insightful comments, which improved the quality of the SlideRule code, documentation and this paper.
 
 # References
